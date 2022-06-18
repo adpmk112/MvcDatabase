@@ -1,9 +1,11 @@
 package ace.project.persistance.dao;
 
-import java.sql.Connection;
+import java.sql.Connection; 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import ace.project.persistance.dto.RequestUserDto;
 import ace.project.persistance.dto.ResponseUserDto;
@@ -14,7 +16,8 @@ public class UserDao {
 		Connection con = mysqlCon.getConnection();
 		
 		public void createUser(RequestUserDto requestUserDto) {
-			String sql = "insert into `user` (`email`,`password`,`userId`) values (?,?)";
+			String sql = "insert into `user` "
+					+ "(`email`,`password`,`userId`) values (?,?,?)";
 			PreparedStatement prepStmt;
 			try {
 				prepStmt = con.prepareStatement(sql);
@@ -33,7 +36,8 @@ public class UserDao {
 		}
 		
 		public void updateByUserId(RequestUserDto requestUserDto) {
-			String sql = "update `user` set email=?,password=? where user_id=?";
+			String sql = "update `user` "
+					+ "set email=?,password=? where user_id=?";
 			PreparedStatement prepStmt;
 			try {
 				prepStmt = con.prepareStatement(sql);
@@ -68,7 +72,7 @@ public class UserDao {
 			}
 		}
 		
-		public ResponseUserDto selectOne(RequestUserDto requestUserDto) {
+		public ResponseUserDto selectOneById(RequestUserDto requestUserDto) {
 		    ResponseUserDto resUserDto = new ResponseUserDto();
 		    String sql = "select * from user where user_id=?";
 		    PreparedStatement prepStmt;
@@ -88,5 +92,45 @@ public class UserDao {
 			return resUserDto;
 		}
 		
+		public ResponseUserDto selectOneByEmail(RequestUserDto requestUserDto) {
+		    ResponseUserDto resUserDto = new ResponseUserDto();
+		    String sql = "select * from user where email=?";
+		    PreparedStatement prepStmt;
+		    try {
+				prepStmt = con.prepareStatement(sql);
+				prepStmt.setString(1, requestUserDto.getEmail());
+				ResultSet resultSet = prepStmt.executeQuery();
+				while(resultSet.next()) {
+					resUserDto.setEmail(resultSet.getString("email"));
+					resUserDto.setPassword(resultSet.getString("password"));
+					resUserDto.setUserId(resultSet.getString("user_id"));
+				}
+			}
+			catch(SQLException e){
+				e.printStackTrace();
+			}
+			return resUserDto;
+		}
 		
+		public List<ResponseUserDto> selectAll(RequestUserDto requestUserDto) {
+		    ResponseUserDto resUserDto = new ResponseUserDto();
+		    
+		    List<ResponseUserDto> resUserDtoList = new ArrayList<>();
+		    String sql = "select * from user";
+		    PreparedStatement prepStmt;
+		    try {
+				prepStmt = con.prepareStatement(sql);
+				ResultSet resultSet = prepStmt.executeQuery();
+				while(resultSet.next()) {
+					resUserDto.setEmail(resultSet.getString("email"));
+					resUserDto.setPassword(resultSet.getString("password"));
+					resUserDto.setUserId(resultSet.getString("user_id"));
+					resUserDtoList.add(resUserDto);
+				}
+			}
+			catch(SQLException e){
+				e.printStackTrace();
+			}
+			return resUserDtoList;
+		}
 }
