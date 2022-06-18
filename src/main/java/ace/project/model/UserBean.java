@@ -14,7 +14,7 @@ public class UserBean implements Serializable {
 	
 	@Getter
 	@Setter
-	private String userid;
+	private String id;
 	
 	@Getter
 	@Setter

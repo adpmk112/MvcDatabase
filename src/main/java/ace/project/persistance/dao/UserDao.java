@@ -17,13 +17,13 @@ public class UserDao {
 		
 		public void createUser(RequestUserDto requestUserDto) {
 			String sql = "insert into `user` "
-					+ "(`email`,`password`,`userId`) values (?,?,?)";
+					+ "(`id`,`email`,`password`) values (?,?,?)";
 			PreparedStatement prepStmt;
 			try {
 				prepStmt = con.prepareStatement(sql);
-				prepStmt.setString(1, requestUserDto.getEmail());
-				prepStmt.setString(2, requestUserDto.getPassword());
-				prepStmt.setString(3, requestUserDto.getUserId());
+				prepStmt.setString(1, requestUserDto.getId());
+				prepStmt.setString(2, requestUserDto.getEmail());
+				prepStmt.setString(3, requestUserDto.getPassword());
 				int rowCount = prepStmt.executeUpdate();
 				
 				if(rowCount>0) {
@@ -37,13 +37,13 @@ public class UserDao {
 		
 		public void updateByUserId(RequestUserDto requestUserDto) {
 			String sql = "update `user` "
-					+ "set email=?,password=? where user_id=?";
+					+ "set email=?,password=? where id=?";
 			PreparedStatement prepStmt;
 			try {
 				prepStmt = con.prepareStatement(sql);
 				prepStmt.setString(1,requestUserDto.getEmail() );
 				prepStmt.setString(2,requestUserDto.getPassword());
-				prepStmt.setString(3, requestUserDto.getUserId());
+				prepStmt.setString(3, requestUserDto.getId());
 				int rowCount = prepStmt.executeUpdate();
 				
 				if(rowCount>0) {
@@ -56,11 +56,11 @@ public class UserDao {
 		}
 		
 		public void deleteByUserId(RequestUserDto requestUserDto) {
-			String sql = "delete from user where user_id=?";
+			String sql = "delete from user where id=?";
 			PreparedStatement prepStmt;
 			try {
 				prepStmt = con.prepareStatement(sql);
-				prepStmt.setString(1, requestUserDto.getUserId());
+				prepStmt.setString(1, requestUserDto.getId());
 				int rowCount = prepStmt.executeUpdate();
 				
 				if(rowCount>0) {
@@ -74,16 +74,16 @@ public class UserDao {
 		
 		public ResponseUserDto selectOneById(RequestUserDto requestUserDto) {
 		    ResponseUserDto resUserDto = new ResponseUserDto();
-		    String sql = "select * from user where user_id=?";
+		    String sql = "select * from user where id=?";
 		    PreparedStatement prepStmt;
 		    try {
 				prepStmt = con.prepareStatement(sql);
-				prepStmt.setString(1, requestUserDto.getUserId());
+				prepStmt.setString(1, requestUserDto.getId());
 				ResultSet resultSet = prepStmt.executeQuery();
 				while(resultSet.next()) {
+					resUserDto.setId(resultSet.getString("id"));
 					resUserDto.setEmail(resultSet.getString("email"));
 					resUserDto.setPassword(resultSet.getString("password"));
-					resUserDto.setUserId(resultSet.getString("user_id"));
 				}
 			}
 			catch(SQLException e){
@@ -101,9 +101,9 @@ public class UserDao {
 				prepStmt.setString(1, requestUserDto.getEmail());
 				ResultSet resultSet = prepStmt.executeQuery();
 				while(resultSet.next()) {
+					resUserDto.setId(resultSet.getString("id"));
 					resUserDto.setEmail(resultSet.getString("email"));
 					resUserDto.setPassword(resultSet.getString("password"));
-					resUserDto.setUserId(resultSet.getString("user_id"));
 				}
 			}
 			catch(SQLException e){
@@ -122,9 +122,9 @@ public class UserDao {
 				prepStmt = con.prepareStatement(sql);
 				ResultSet resultSet = prepStmt.executeQuery();
 				while(resultSet.next()) {
+					resUserDto.setId(resultSet.getString("id"));
 					resUserDto.setEmail(resultSet.getString("email"));
 					resUserDto.setPassword(resultSet.getString("password"));
-					resUserDto.setUserId(resultSet.getString("user_id"));
 					resUserDtoList.add(resUserDto);
 				}
 			}

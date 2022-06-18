@@ -17,16 +17,17 @@ public class StudentDao {
 	
 	public void createStudent(RequestStudentDto requestStudentDto) {
 		String sql = "insert into `student` "
-				+ "(`name`,`birth`,`gender`,`phone`,`education`) "
-				+ "values (?,?,?,?,?)";
+				+ "(`id`,`name`,`birth`,`gender`,`phone`,`education`) "
+				+ "values (?,?,?,?,?,?)";
 		PreparedStatement prepStmt;
 		try {
 			prepStmt = con.prepareStatement(sql);
-			prepStmt.setString(1, requestStudentDto.getName());
-			prepStmt.setString(2, requestStudentDto.getBirth());
-			prepStmt.setString(3, requestStudentDto.getGender());
-			prepStmt.setString(4, requestStudentDto.getPhone());
-			prepStmt.setString(5, requestStudentDto.getEducation());
+			prepStmt.setString(1, requestStudentDto.getId());
+			prepStmt.setString(2, requestStudentDto.getName());
+			prepStmt.setString(3, requestStudentDto.getBirth());
+			prepStmt.setString(4, requestStudentDto.getGender());
+			prepStmt.setString(5, requestStudentDto.getPhone());
+			prepStmt.setString(6, requestStudentDto.getEducation());
 			int rowCount = prepStmt.executeUpdate();
 			
 			if(rowCount>0) {
@@ -40,7 +41,7 @@ public class StudentDao {
 	
 	public void updateByStudentId(RequestStudentDto requestStudentDto) {
 		String sql = "update `student` set name=?,birth=?,gender=?,"
-				+ "phone=?,education=? where student_id=?";
+				+ "phone=?,education=? where id=?";
 		PreparedStatement prepStmt;
 		try {
 			prepStmt = con.prepareStatement(sql);
@@ -49,7 +50,7 @@ public class StudentDao {
 			prepStmt.setString(3, requestStudentDto.getGender());
 			prepStmt.setString(4, requestStudentDto.getPhone());
 			prepStmt.setString(5, requestStudentDto.getEducation());
-			prepStmt.setString(6, requestStudentDto.getStudentId());
+			prepStmt.setString(6, requestStudentDto.getId());
 			int rowCount = prepStmt.executeUpdate();
 			
 			if(rowCount>0) {
@@ -62,11 +63,11 @@ public class StudentDao {
 	}
 	
 	public void deleteByStudentId(RequestStudentDto requestStudentDto) {
-		String sql = "delete from student where student_id=?";
+		String sql = "delete from student where id=?";
 		PreparedStatement prepStmt;
 		try {
 			prepStmt = con.prepareStatement(sql);
-			prepStmt.setString(1, requestStudentDto.getStudentId());
+			prepStmt.setString(1, requestStudentDto.getId());
 			int rowCount = prepStmt.executeUpdate();
 			
 			if(rowCount>0) {
@@ -80,19 +81,19 @@ public class StudentDao {
 	
 	public ResponseStudentDto selectOneById(ResponseStudentDto requestStudentDto) {
 	    ResponseStudentDto resStudentDto = new ResponseStudentDto();
-	    String sql = "select * from student where student_id=?";
+	    String sql = "select * from student where id=?";
 	    PreparedStatement prepStmt;
 	    try {
 			prepStmt = con.prepareStatement(sql);
-			prepStmt.setString(1, requestStudentDto.getStudentId());
+			prepStmt.setString(1, requestStudentDto.getId());
 			ResultSet resultSet = prepStmt.executeQuery();
 			while(resultSet.next()) {
+				resStudentDto.setId(resultSet.getString("id"));
 				resStudentDto.setName(resultSet.getString("name"));
 				resStudentDto.setBirth(resultSet.getString("birth"));
 				resStudentDto.setGender(resultSet.getString("gender"));
 				resStudentDto.setPhone(resultSet.getString("phone"));
 				resStudentDto.setEducation(resultSet.getString("education"));
-				resStudentDto.setStudentId(resultSet.getString("student_id"));
 			}
 		}
 		catch(SQLException e){
@@ -110,12 +111,12 @@ public class StudentDao {
 			prepStmt.setString(1, requestStudentDto.getName());
 			ResultSet resultSet = prepStmt.executeQuery();
 			while(resultSet.next()) {
+				resStudentDto.setId(resultSet.getString("id"));
 				resStudentDto.setName(resultSet.getString("name"));
 				resStudentDto.setBirth(resultSet.getString("birth"));
 				resStudentDto.setGender(resultSet.getString("gender"));
 				resStudentDto.setPhone(resultSet.getString("phone"));
 				resStudentDto.setEducation(resultSet.getString("education"));
-				resStudentDto.setStudentId(resultSet.getString("student_id"));
 			}
 		}
 		catch(SQLException e){
@@ -134,12 +135,12 @@ public class StudentDao {
 			prepStmt = con.prepareStatement(sql);
 			ResultSet resultSet = prepStmt.executeQuery();
 			while(resultSet.next()) {
+				resStudentDto.setId(resultSet.getString("id"));
 				resStudentDto.setName(resultSet.getString("name"));
 				resStudentDto.setBirth(resultSet.getString("birth"));
 				resStudentDto.setGender(resultSet.getString("gender"));
 				resStudentDto.setPhone(resultSet.getString("phone"));
 				resStudentDto.setEducation(resultSet.getString("education"));
-				resStudentDto.setStudentId(resultSet.getString("student_id"));
 				resStudentDtoList.add(resStudentDto);
 			}
 		}

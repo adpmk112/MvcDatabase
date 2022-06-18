@@ -7,5 +7,5 @@ import lombok.Setter;
 @Setter
 public class RequestStudentDto {
 	
-	private String studentId, name, birth, gender, phone, education;
+	private String id, name, birth, gender, phone, education;
 }
