@@ -79,7 +79,7 @@ public class StudentDao {
 		}
 	}
 	
-	public ResponseStudentDto selectOneById(ResponseStudentDto requestStudentDto) {
+	public ResponseStudentDto selectOneById(RequestStudentDto requestStudentDto) {
 	    ResponseStudentDto resStudentDto = new ResponseStudentDto();
 	    String sql = "select * from student where id=?";
 	    PreparedStatement prepStmt;
@@ -126,7 +126,6 @@ public class StudentDao {
 	}
 	
 	public List<ResponseStudentDto> selectAll(RequestStudentDto requestStudentDto) {
-	    ResponseStudentDto resStudentDto = new ResponseStudentDto();
 	    
 	    List<ResponseStudentDto> resStudentDtoList = new ArrayList<>();
 	    String sql = "select * from student";
@@ -135,6 +134,7 @@ public class StudentDao {
 			prepStmt = con.prepareStatement(sql);
 			ResultSet resultSet = prepStmt.executeQuery();
 			while(resultSet.next()) {
+				ResponseStudentDto resStudentDto = new ResponseStudentDto();
 				resStudentDto.setId(resultSet.getString("id"));
 				resStudentDto.setName(resultSet.getString("name"));
 				resStudentDto.setBirth(resultSet.getString("birth"));

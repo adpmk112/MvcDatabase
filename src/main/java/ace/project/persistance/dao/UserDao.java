@@ -11,13 +11,14 @@ import ace.project.persistance.dto.RequestUserDto;
 import ace.project.persistance.dto.ResponseUserDto;
 
 public class UserDao {
-		MySqlSetup mysqlCon = new MySqlSetup();
+		static Connection con = null;
 		
-		Connection con = mysqlCon.getConnection();
+		static {
+			con = MySqlSetup.getConnection();
+		}
 		
 		public void createUser(RequestUserDto requestUserDto) {
-			String sql = "insert into `user` "
-					+ "(`id`,`email`,`password`) values (?,?,?)";
+			String sql = "insert into `user` (`id`,`email`,`password`) values (?,?,?)";
 			PreparedStatement prepStmt;
 			try {
 				prepStmt = con.prepareStatement(sql);
@@ -41,7 +42,7 @@ public class UserDao {
 			PreparedStatement prepStmt;
 			try {
 				prepStmt = con.prepareStatement(sql);
-				prepStmt.setString(1,requestUserDto.getEmail() );
+				prepStmt.setString(1,requestUserDto.getEmail());
 				prepStmt.setString(2,requestUserDto.getPassword());
 				prepStmt.setString(3, requestUserDto.getId());
 				int rowCount = prepStmt.executeUpdate();
@@ -112,9 +113,7 @@ public class UserDao {
 			return resUserDto;
 		}
 		
-		public List<ResponseUserDto> selectAll(RequestUserDto requestUserDto) {
-		    ResponseUserDto resUserDto = new ResponseUserDto();
-		    
+		public List<ResponseUserDto> selectAll() {
 		    List<ResponseUserDto> resUserDtoList = new ArrayList<>();
 		    String sql = "select * from user";
 		    PreparedStatement prepStmt;
@@ -122,6 +121,7 @@ public class UserDao {
 				prepStmt = con.prepareStatement(sql);
 				ResultSet resultSet = prepStmt.executeQuery();
 				while(resultSet.next()) {
+					ResponseUserDto resUserDto = new ResponseUserDto();
 					resUserDto.setId(resultSet.getString("id"));
 					resUserDto.setEmail(resultSet.getString("email"));
 					resUserDto.setPassword(resultSet.getString("password"));
