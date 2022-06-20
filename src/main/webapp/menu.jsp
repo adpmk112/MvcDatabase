@@ -25,15 +25,15 @@
         <div class="container">
             <div class=row>        
                 <div class="col-md-5 ">
-            <a href="MNU001.html"><h3>Student Registration</h3></a>
+            <a href="menu.jsp"><h3>Student Registration</h3></a>
         </div>  
         <div class="col-md-6">
-            <p>User: USR ${sessionScope.userSession.id} ${sessionScope.userSession.email}</p> 
+            <p>User: USR-${sessionScope.userSession.id} ${sessionScope.userSession.email}</p> 
             <p>Current Date : <%@page import="java.util.Date" %>
                   	 		<%=new Date() %> </p>
         </div>  
         <div class="col-md-1" >
-            <input type="button" class="btn-basic" id="lgnout-button" value="Log Out" onclick="location.href='login.jsp'">
+            <input type="button" class="btn-basic" id="logout-button" value="Log Out" onclick="location.href='login.jsp'">
         </div>        
     </div>
 </div>

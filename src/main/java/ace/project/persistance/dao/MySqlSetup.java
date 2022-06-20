@@ -15,7 +15,7 @@ public class MySqlSetup {
 		}
 		String url = "jdbc:mysql://localhost:3306/project";
 		String name = "root";
-		String password = "zxcv1234";
+		String password = "12345";
 
 		try {
 			con = DriverManager.getConnection(url, name, password);

@@ -28,7 +28,7 @@
             <a href="menu.jsp"><h3>Student Registration</h3></a>
         </div>  
        <div class="col-md-6">
-            <p>User: USR ${sessionScope.userSession.id} ${sessionScope.userSession.email}</p> 
+              <p>User: USR-${sessionScope.userSession.id} ${sessionScope.userSession.email}</p> 
             <p>Current Date : <%@page import="java.util.Date" %>
                   	 		<%=new Date() %> </p>
         </div>  
