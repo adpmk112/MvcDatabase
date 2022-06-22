@@ -7,13 +7,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import ace.project.persistance.dto.RequestCourseDto;
 import ace.project.persistance.dto.RequestStudentDto;
 import ace.project.persistance.dto.ResponseStudentDto;
 
 public class StudentDao {
-	MySqlSetup mysqlCon = new MySqlSetup();
+	static Connection con = null;
 	
-	Connection con = mysqlCon.getConnection();
+	static {
+		con = MySqlSetup.getConnection();
+	}
 	
 	public void createStudent(RequestStudentDto requestStudentDto) {
 		String sql = "insert into `student` "
