@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -46,8 +47,8 @@
         <button class="dropdown-btn" > Class Management <i class="fa fa-caret-down"></i></button>
         
             <div class="dropdown-container">
-          <a href="courseRegister.jsp">Course Registration </a>
-          <a href="studentRegister.jsp">Student Registration </a>
+          <a href="CourseCreateController">Course Registration </a>
+          <a href="StudentCreateController">Student Registration </a>
           <a href="studentInfo.jsp">Student Search </a>
         </div>
         <a href="UserViewController">Users Management</a>
@@ -60,7 +61,7 @@
                 <div class="col-md-2"></div>
                 <label for="studentID" class="col-md-2 col-form-label">Student ID</label>
                 <div class="col-md-4">
-                    <input type="text" class="form-control" value="Need to update" id="studentID" disabled>
+                    <input type="text" class="form-control" value="${studId }" id="studentID" readonly=readonly>
                 </div>
             </div>
             <div class="row mb-4">
@@ -121,79 +122,17 @@
                 <div class="col-md-2"></div>
                 <legend class="col-form-label col-md-2 pt-0">Attend</legend>
     
-                <div class="col-md-4">
-                    <div class="form-check-inline col-md-2">
-                        <input class="form-check-input" type="checkbox" name="attend" id="gridRadios1" value="option1">
-                        <label class="form-check-label" for="gridRadios1">
-                            PFC
-                        </label>
-                    </div>
-                    <div class="form-check-inline col-md-2">
-                        <input class="form-check-input" type="checkbox" name="attend" id="gridRadios2" value="option2">
-                        <label class="form-check-label" for="gridRadios2">
-                            JWD
-                        </label>
-                    </div>
-                    <div class="form-check-inline col-md-2">
-                        <input class="form-check-input" type="checkbox" name="attend" id="gridRadios2" value="option2">
-                        <label class="form-check-label" for="gridRadios2">
-                            PHP
-                        </label>
-                    </div>
-                    <div class="form-check-inline col-md-2">
-                        <input class="form-check-input" type="checkbox" name="attend" id="gridRadios1" value="option1">
-                        <label class="form-check-label" for="gridRadios1">
-                            OJT
-                        </label>
-                    </div>
-    
-    
+    			<div class="col-md-4">
+                    <c:forEach var="data" items="${courseList}">
+						
+							<div class="form-check-inline col-md-2">
+								<input class="form-check-input" type="checkbox" name="course" id="gridRadios1" value="${data.id}"> 
+								<label class="form-check-label" for="gridRadios1"> ${data.name} </label>
+							</div>
+						
+					</c:forEach>
                 </div>
-    
-                <div class="col-md-6 offset-md-4 mt-4">
-                    <div class="form-check-inline col-md-2">
-                        <input class="form-check-input" type="checkbox" name="attend" id="gridRadios1" value="option1">
-                        <label class="form-check-label" for="gridRadios1">
-                            ASP.Net
-                        </label>
-                    </div>
-    
-                    <div class="form-check-inline col-md-2">
-                        <input class="form-check-input" type="checkbox" name="attend" id="gridRadios2" value="option2">
-                        <label class="form-check-label" for="gridRadios2">
-                            Python
-                        </label>
-                    </div>
-                    <div class="form-check-inline col-md-2">
-                        <input class="form-check-input" type="checkbox" name="attend" id="gridRadios2" value="option2">
-                        <label class="form-check-label" for="gridRadios2">
-                            Android
-                        </label>
-                    </div>
-    
-                </div>
-                <div class="col-md-6 offset-md-4 mt-4">
-                    <div class="form-check-inline col-md-2">
-                        <input class="form-check-input" type="checkbox" name="attend" id="gridRadios1" value="option1">
-                        <label class="form-check-label" for="gridRadios1">
-                            Python
-                        </label>
-                    </div>
-    
-                    <div class="form-check-inline col-md-2">
-                        <input class="form-check-input" type="checkbox" name="attend" id="gridRadios2" value="option2">
-                        <label class="form-check-label" for="gridRadios2">
-                            JavaScript
-                        </label>
-                    </div>
-                    <div class="form-check-inline col-md-3">
-                        <input class="form-check-input" type="checkbox" name="attend" id="gridRadios2" value="option2">
-                        <label class="form-check-label" for="gridRadios2">
-                            React Native
-                        </label>
-                    </div>
-    
-                </div>
+                
             </fieldset>
             <div class="row mb-4">
                 <div class="col-md-2"></div>

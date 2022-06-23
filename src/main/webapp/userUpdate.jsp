@@ -46,8 +46,8 @@
         <button class="dropdown-btn" > Class Management <i class="fa fa-caret-down"></i></button>
         
             <div class="dropdown-container">
-          <a href="courseRegister.jsp">Course Registration </a>
-          <a href="studentRegister.jsp">Student Registration </a>
+          <a href="CourseCreateController">Course Registration </a>
+          <a href="StudentCreateController">Student Registration </a>
           <a href="studentSearch.jsp">Student Search </a>
         </div>
         <a href="userView.jsp">Users Management</a>

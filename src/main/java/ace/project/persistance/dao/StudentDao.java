@@ -9,6 +9,7 @@ import java.util.List;
 
 import ace.project.persistance.dto.RequestCourseDto;
 import ace.project.persistance.dto.RequestStudentDto;
+import ace.project.persistance.dto.ResponseCourseDto;
 import ace.project.persistance.dto.ResponseStudentDto;
 
 public class StudentDao {
@@ -25,7 +26,7 @@ public class StudentDao {
 		PreparedStatement prepStmt;
 		try {
 			prepStmt = con.prepareStatement(sql);
-			prepStmt.setString(1, requestStudentDto.getId());
+			prepStmt.setString(1, String.valueOf(requestStudentDto.getId()));
 			prepStmt.setString(2, requestStudentDto.getName());
 			prepStmt.setString(3, requestStudentDto.getBirth());
 			prepStmt.setString(4, requestStudentDto.getGender());
@@ -53,7 +54,7 @@ public class StudentDao {
 			prepStmt.setString(3, requestStudentDto.getGender());
 			prepStmt.setString(4, requestStudentDto.getPhone());
 			prepStmt.setString(5, requestStudentDto.getEducation());
-			prepStmt.setString(6, requestStudentDto.getId());
+			prepStmt.setString(6, String.valueOf(requestStudentDto.getId()));
 			int rowCount = prepStmt.executeUpdate();
 			
 			if(rowCount>0) {
@@ -70,7 +71,7 @@ public class StudentDao {
 		PreparedStatement prepStmt;
 		try {
 			prepStmt = con.prepareStatement(sql);
-			prepStmt.setString(1, requestStudentDto.getId());
+			prepStmt.setString(1, String.valueOf(requestStudentDto.getId()));
 			int rowCount = prepStmt.executeUpdate();
 			
 			if(rowCount>0) {
@@ -88,10 +89,10 @@ public class StudentDao {
 	    PreparedStatement prepStmt;
 	    try {
 			prepStmt = con.prepareStatement(sql);
-			prepStmt.setString(1, requestStudentDto.getId());
+			prepStmt.setString(1, String.valueOf(requestStudentDto.getId()));
 			ResultSet resultSet = prepStmt.executeQuery();
 			while(resultSet.next()) {
-				resStudentDto.setId(resultSet.getString("id"));
+				resStudentDto.setId(Integer.valueOf(resultSet.getString("id")));
 				resStudentDto.setName(resultSet.getString("name"));
 				resStudentDto.setBirth(resultSet.getString("birth"));
 				resStudentDto.setGender(resultSet.getString("gender"));
@@ -114,7 +115,7 @@ public class StudentDao {
 			prepStmt.setString(1, requestStudentDto.getName());
 			ResultSet resultSet = prepStmt.executeQuery();
 			while(resultSet.next()) {
-				resStudentDto.setId(resultSet.getString("id"));
+				resStudentDto.setId(Integer.valueOf(resultSet.getString("id")));
 				resStudentDto.setName(resultSet.getString("name"));
 				resStudentDto.setBirth(resultSet.getString("birth"));
 				resStudentDto.setGender(resultSet.getString("gender"));
@@ -128,7 +129,7 @@ public class StudentDao {
 		return resStudentDto;
 	}
 	
-	public List<ResponseStudentDto> selectAll(RequestStudentDto requestStudentDto) {
+	public List<ResponseStudentDto> selectAll() {
 	    
 	    List<ResponseStudentDto> resStudentDtoList = new ArrayList<>();
 	    String sql = "select * from student";
@@ -138,7 +139,7 @@ public class StudentDao {
 			ResultSet resultSet = prepStmt.executeQuery();
 			while(resultSet.next()) {
 				ResponseStudentDto resStudentDto = new ResponseStudentDto();
-				resStudentDto.setId(resultSet.getString("id"));
+				resStudentDto.setId(Integer.valueOf(resultSet.getString("id")));
 				resStudentDto.setName(resultSet.getString("name"));
 				resStudentDto.setBirth(resultSet.getString("birth"));
 				resStudentDto.setGender(resultSet.getString("gender"));
@@ -151,5 +152,23 @@ public class StudentDao {
 			e.printStackTrace();
 		}
 		return resStudentDtoList;
+	}
+	
+	public ResponseStudentDto selectLastRow() {
+		ResponseStudentDto resStudentDto = new ResponseStudentDto();
+		String sql = "SELECT `id` FROM `student` ORDER BY `id` DESC LIMIT 1";
+		PreparedStatement prepStmt;
+		try {
+			prepStmt = con.prepareStatement(sql);
+			ResultSet resultSet = prepStmt.executeQuery();
+			while(resultSet.next()) {
+				resStudentDto.setId(Integer.valueOf(resultSet.getString("id")));
+				resStudentDto.setName(resultSet.getString("name"));
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return resStudentDto;
 	}
 }

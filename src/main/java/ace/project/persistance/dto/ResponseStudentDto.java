@@ -8,5 +8,6 @@ import lombok.Setter;
 
 public class ResponseStudentDto {
 	
-	private String id, name, birth, gender, phone, education;
+	private String name, birth, gender, phone, education;
+	private int id;
 }

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import ace.project.persistance.dao.CourseDao;
 import ace.project.persistance.dto.RequestCourseDto;
+import ace.project.persistance.dto.ResponseCourseDto;
 
 /**
  * Servlet implementation class CourseCreateController
@@ -21,6 +22,7 @@ public class CourseCreateController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     CourseDao courseDao = new CourseDao();
     RequestCourseDto requestCourseDto = new RequestCourseDto();
+    int courseId = 0;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -34,7 +36,11 @@ public class CourseCreateController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		ResponseCourseDto resCourseDto = courseDao.selectLastRow();
+		System.out.println("Fetching course_id");
+		courseId = resCourseDto.getId()+1;
+		request.getServletContext().setAttribute("courseId", "COU-"+courseId);
+		response.sendRedirect("http://localhost:8080/Mvc_database/courseRegister.jsp");
 	}
 
 	/**
@@ -42,7 +48,9 @@ public class CourseCreateController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.getServletContext().setAttribute("courseId", "COU-");
+		ResponseCourseDto resCourseDto = courseDao.selectLastRow();
+		courseId = resCourseDto.getId()+2;
+		request.getServletContext().setAttribute("courseId", "COU-"+courseId);
 		requestCourseDto.setName(request.getParameter("name"));
 		courseDao.createCourse(requestCourseDto);
 		response.sendRedirect("http://localhost:8080/Mvc_database/courseRegister.jsp");

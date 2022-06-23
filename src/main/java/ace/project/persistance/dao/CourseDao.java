@@ -36,7 +36,7 @@ public class CourseDao {
 		}
 	}
 	
-	public List<ResponseCourseDto> selectAll(RequestCourseDto requestCourseDto) {
+	public List<ResponseCourseDto> selectAll() {
 	    
 	    List<ResponseCourseDto> resCourseDtoList = new ArrayList<>();
 	    String sql = "select * from course";
@@ -46,8 +46,9 @@ public class CourseDao {
 			ResultSet resultSet = prepStmt.executeQuery();
 			while(resultSet.next()) {
 				ResponseCourseDto resCourseDto = new ResponseCourseDto();
-				resCourseDto.setId(resultSet.getString("id"));
+				resCourseDto.setId(Integer.valueOf(resultSet.getString("id")));
 				resCourseDto.setName(resultSet.getString("name"));
+				resCourseDtoList.add(resCourseDto);
 			}
 		}
 		catch(SQLException e){
@@ -56,4 +57,22 @@ public class CourseDao {
 		return resCourseDtoList;
 
 }
+	
+	public ResponseCourseDto selectLastRow() {
+		ResponseCourseDto resCourseDto = new ResponseCourseDto();
+		String sql = "SELECT `id` FROM `course` ORDER BY `id` DESC LIMIT 1";
+		PreparedStatement prepStmt;
+		try {
+			prepStmt = con.prepareStatement(sql);
+			ResultSet resultSet = prepStmt.executeQuery();
+			while(resultSet.next()) {
+				resCourseDto.setId(Integer.valueOf(resultSet.getString("id")));
+				resCourseDto.setName(resultSet.getString("name"));
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return resCourseDto;
+	}
 }

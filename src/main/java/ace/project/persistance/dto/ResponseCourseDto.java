@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ResponseCourseDto {
-	String id;
+	int id;
 	String name;
 }

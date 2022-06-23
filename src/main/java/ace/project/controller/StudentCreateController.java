@@ -1,15 +1,21 @@
 package ace.project.controller;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import ace.project.persistance.dao.CourseDao;
 import ace.project.persistance.dao.StudentDao;
+import ace.project.persistance.dao.Student_courseDao;
 import ace.project.persistance.dto.RequestCourseDto;
 import ace.project.persistance.dto.RequestStudentDto;
+import ace.project.persistance.dto.ResponseCourseDto;
+import ace.project.persistance.dto.ResponseStudentDto;
 
 /**
  * Servlet implementation class StudentCreateController
@@ -18,8 +24,12 @@ import ace.project.persistance.dto.RequestStudentDto;
 public class StudentCreateController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	StudentDao studentDao = new StudentDao();
+	CourseDao courseDao = new CourseDao();
 	RequestCourseDto requestCourseDto = new RequestCourseDto();
 	RequestStudentDto requestStudentDto = new RequestStudentDto();
+	Student_courseDao student_courseDao = new Student_courseDao();
+	String[]attend;
+	int studId;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -34,7 +44,13 @@ public class StudentCreateController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
+		List<ResponseCourseDto>courseList = courseDao.selectAll();
+		System.out.println("CourseList -->"+courseList.size());
+		request.getServletContext().setAttribute("courseList", courseList);
+		response.sendRedirect("http://localhost:8080/Mvc_database/studentRegister.jsp");
+		ResponseStudentDto resStudentDto = studentDao.selectLastRow();
+		studId = resStudentDto.getId()+1;
+		request.getServletContext().setAttribute("studId", studId);
 	}
 
 	/**
@@ -42,10 +58,21 @@ public class StudentCreateController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		ResponseStudentDto resStudentDto = studentDao.selectLastRow();
+		studId = resStudentDto.getId()+1;
+		requestStudentDto.setId(studId);
+		requestStudentDto.setName(request.getParameter("name"));
 		requestStudentDto.setBirth(request.getParameter("birth"));
 		requestStudentDto.setGender(request.getParameter("gender"));
 		requestStudentDto.setPhone(request.getParameter("phone"));
 		requestStudentDto.setEducation(request.getParameter("education"));
+		studentDao.createStudent(requestStudentDto);
+		String[]attend = request.getParameterValues("course");
+		for(int i=0;i<attend.length;i++) {
+			requestCourseDto.setId(attend[i]);
+			student_courseDao.createStudent_course(requestStudentDto, requestCourseDto);
+		}
+		response.sendRedirect("http://localhost:8080/Mvc_database/studentView.jsp");
 	}
 
 }
