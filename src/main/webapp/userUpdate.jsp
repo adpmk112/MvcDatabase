@@ -48,9 +48,9 @@
             <div class="dropdown-container">
           <a href="CourseCreateController">Course Registration </a>
           <a href="StudentCreateController">Student Registration </a>
-          <a href="studentSearch.jsp">Student Search </a>
+          <a href="StudentViewController">Student Search </a>
         </div>
-        <a href="userView.jsp">Users Management</a>
+        <a href="UserViewController">Users Management</a>
       </div>
       <div class="main_contents">
     <div id="sub_content">

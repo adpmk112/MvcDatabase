@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import ace.project.persistance.dao.CourseDao;
 import ace.project.persistance.dao.StudentDao;
-import ace.project.persistance.dao.Student_courseDao;
+import ace.project.persistance.dao.StudentCourseDao;
 import ace.project.persistance.dto.RequestCourseDto;
 import ace.project.persistance.dto.RequestStudentDto;
 import ace.project.persistance.dto.ResponseCourseDto;
@@ -27,7 +27,7 @@ public class StudentCreateController extends HttpServlet {
 	CourseDao courseDao = new CourseDao();
 	RequestCourseDto requestCourseDto = new RequestCourseDto();
 	RequestStudentDto requestStudentDto = new RequestStudentDto();
-	Student_courseDao student_courseDao = new Student_courseDao();
+	StudentCourseDao student_courseDao = new StudentCourseDao();
 	String[]attend;
 	int studId;
        
@@ -50,7 +50,7 @@ public class StudentCreateController extends HttpServlet {
 		response.sendRedirect("http://localhost:8080/Mvc_database/studentRegister.jsp");
 		ResponseStudentDto resStudentDto = studentDao.selectLastRow();
 		studId = resStudentDto.getId()+1;
-		request.getServletContext().setAttribute("studId", studId);
+		request.getServletContext().setAttribute("studId", "STU-"+studId);
 	}
 
 	/**
@@ -72,7 +72,7 @@ public class StudentCreateController extends HttpServlet {
 			requestCourseDto.setId(attend[i]);
 			student_courseDao.createStudent_course(requestStudentDto, requestCourseDto);
 		}
-		response.sendRedirect("http://localhost:8080/Mvc_database/studentView.jsp");
+		response.sendRedirect("http://localhost:8080/Mvc_database/StudentViewController");
 	}
 
 }

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,7 +28,7 @@
                 <div class="col-md-5 ">
             <a href="menu.jsp"><h3>Student Registration</h3></a>
         </div>  
-           <div class="col-md-6">
+        <div class="col-md-6">
              <p>User: USR-${sessionScope.userSession.id} ${sessionScope.userSession.email}</p> 
             <p>Current Date : <%@page import="java.util.Date" %>
                   	 		<%=new Date() %> </p>
@@ -37,9 +37,9 @@
             <input type="button" class="btn-basic" id="lgnout-button" value="Log Out" onclick="location.href='login.jsp'">
         </div>        
     </div>
-</div>
-
-</div>
+    </div>
+    
+    </div>
     <!-- <div id="testsidebar">Hello World </div> -->
     <div class="container">
     <div class="sidenav">
@@ -47,7 +47,7 @@
         <button class="dropdown-btn" > Class Management <i class="fa fa-caret-down"></i></button>
         
             <div class="dropdown-container">
-          <a href="CourseCreateController">Course Registration </a>
+           <a href="CourseCreateController">Course Registration </a>
           <a href="StudentCreateController">Student Registration </a>
           <a href="StudentViewController">Student Search </a>
         </div>
@@ -55,27 +55,28 @@
       </div>
       <div class="main_contents">
     <div id="sub_content">
-        <form action="StudentCreateController" method="post">
-            <h2 class="col-md-6 offset-md-2 mb-5 mt-4">Student Registration</h2>
+        <form">
+
+            <h2 class="col-md-6 offset-md-2 mb-5 mt-4">Student Details</h2>
             <div class="row mb-4">
                 <div class="col-md-2"></div>
                 <label for="studentID" class="col-md-2 col-form-label">Student ID</label>
                 <div class="col-md-4">
-                    <input type="text" class="form-control" value="${studId }" id="studentID" readonly=readonly>
+                    <input type="text" class="form-control" value="STU ${fetchedStudent.studentId}" id="studentID" disabled>
                 </div>
             </div>
             <div class="row mb-4">
                 <div class="col-md-2"></div>
                 <label for="name" class="col-md-2 col-form-label">Name</label>
                 <div class="col-md-4">
-                    <input type="text" class="form-control" name="name" id="name" >
+                    <input type="text" class="form-control" id="name" value="${fetchedStudent.studentName}">
                 </div>
             </div>
             <div class="row mb-4">
                 <div class="col-md-2"></div>
-                <label for="birth" class="col-md-2 col-form-label">DOB</label>
+                <label for="dob" class="col-md-2 col-form-label">DOB</label>
                 <div class="col-md-4">
-                    <input type="date" class="form-control" name="birth" id="birth">
+                    <input type="date" class="form-control" id="dob" value="${fetchedStudent.birth}">
                 </div>
             </div>
             <fieldset class="row mb-4">
@@ -83,15 +84,16 @@
                 <legend class="col-form-label col-md-2 pt-0">Gender</legend>
                 <div class="col-md-4">
                     <div class="form-check-inline">
-                        <input class="form-check-input" type="radio" name="gender" value="Male" id="gridRadios1"
-                            checked>
-                        <label class="form-check-label" for="gender">
+                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" 
+                        value="Male" ${fetchedStudent.gender.equals("Male") ? 'checked' : '' }>
+                        <label class="form-check-label" for="gridRadios1">
                             Male
                         </label>
                     </div>
                     <div class="form-check-inline">
-                        <input class="form-check-input" type="radio" name="gender" id="gridRadios2" value="Female">
-                        <label class="form-check-label" for="gender">
+                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2"
+                         value="Female" ${fetchedStudent.gender.equals("Female") ? 'checked' : '' }>
+                        <label class="form-check-label" for="gridRadios2">
                             Female
                         </label>
                     </div>
@@ -103,17 +105,18 @@
                 <div class="col-md-2"></div>
                 <label for="phone" class="col-md-2 col-form-label">Phone</label>
                 <div class="col-md-4">
-                    <input type="text" class="form-control" name="phone" id="phone">
+                    <input type="text" class="form-control" id="phone" value="${fetchedStudent.phone }">
                 </div>
             </div>
             <div class="row mb-4">
                 <div class="col-md-2"></div>
                 <label for="education" class="col-md-2 col-form-label">Education</label>
                 <div class="col-md-4">
-                    <select class="form-select" aria-label="Education" name="education" id="education">
-                        <option value="Bachelor of Information Technology">Bachelor of Information Technology</option>
-                        <option value="Diploma in IT">Diploma in IT</option>
-                        <option value="Bachelor of Computer Science">Bachelor of Computer Science</option>
+                    <select class="form-select" aria-label="Education" id="education">
+                        <option selected>${fetchedStudent.education }</option>
+                        <option value="1">Bachelor of Information Technology</option>
+                        <option value="2">Diploma in IT</option>
+                        <option value="3">Bachelor of Computer Science</option>
     
                     </select>
                 </div>
@@ -126,7 +129,8 @@
                     <c:forEach var="data" items="${courseList}">
 						
 							<div class="form-check-inline col-md-2">
-								<input class="form-check-input" type="checkbox" name="course" id="gridRadios1" value="${data.id}"> 
+								<input class="form-check-input" type="checkbox" name="course" id="gridRadios1" value="${data.id}"
+								${fetchedStudent.courseId.equals(data.id) ? 'checked' : '' } > 
 								<label class="form-check-label" for="gridRadios1"> ${data.name} </label>
 							</div>
 						
@@ -146,17 +150,34 @@
                 <div class="col-md-4"></div>
     
                 <div class="col-md-4">
-                    <input type="submit" value="Add" class="btn btn-secondary col-md-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <a href="StudentUpdateController">
+                        <button type="button" class="btn btn-secondary">
+                          
+                            <span>Update</span>
+                        </button>
+                    </a>
+    
+                    <!-- Button trigger modal -->
+                    <a href="StudentDeleteController">
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                       
+                       <span>Delete</span> 
+                    </button>
+    				</a>
+                    <!-- Modal -->
+                   
                 </div>
-
     
             </div>
+    
+    
+    
+    
+    
             </form>
     </div>
-     
 </div>
 </div>
-
         <div id="testfooter">
             <span>Copyright &#169; ACE Inspiration 2022</span>
         </div>
@@ -177,7 +198,6 @@
               });
             }
             </script>
- 
 </body>
 
 </html>

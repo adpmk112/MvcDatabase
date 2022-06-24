@@ -48,7 +48,7 @@
             <div class="dropdown-container">
           <a href="CourseCreateController">Course Registration </a>
           <a href="StudentCreateController">Student Registration </a>
-          <a href="studentView.jsp">Student Search </a>
+          <a href="StudentViewController">Student Search </a>
         </div>
         <a href="UserViewController">Users Management</a>
       </div>
@@ -72,7 +72,7 @@
         </div>
       </form>
 <div>
-      <table class="table table-striped" id="stduentTable">
+      <table class="table table-striped" id="studentTable">
         <thead>
           <tr>
             <th scope="col">Student ID</th>
@@ -83,13 +83,13 @@
         </thead>
         <tbody>
           <tr>
-           <c:forEach items="${applicationScope.studentList}" var="data">
+           <c:forEach items="${studWithCourse}" var="data">
                <tr>      
-                    <td>${data.id}</td>
-                    <td>${data.name}</td>
-                    <td>Need to update</td>
+                    <td>${data.studentId}</td>
+                    <td>${data.studentName}</td>
+                    <td>${data.courseName}</td>
             <td>
-              <a href="StudentViewController?fetchId=${data.id}"><button type="submit" class="btn btn-secondary mb-2">See More</button></a>
+              <a href="StudentFetchController?fetchStudentId=${data.studentId}"><button type="submit" class="btn btn-secondary mb-2">See More</button></a>
               <!-- <a href="STU002.html" class="text-decoration-none">See more</a> -->
             </td>
           </tr>
