@@ -27,7 +27,7 @@ public class StudentCreateController extends HttpServlet {
 	CourseDao courseDao = new CourseDao();
 	RequestCourseDto requestCourseDto = new RequestCourseDto();
 	RequestStudentDto requestStudentDto = new RequestStudentDto();
-	StudentCourseDao student_courseDao = new StudentCourseDao();
+	StudentCourseDao studentCourseDao = new StudentCourseDao();
 	String[]attend;
 	int studId;
        
@@ -70,7 +70,7 @@ public class StudentCreateController extends HttpServlet {
 		String[]attend = request.getParameterValues("course");
 		for(int i=0;i<attend.length;i++) {
 			requestCourseDto.setId(attend[i]);
-			student_courseDao.createStudent_course(requestStudentDto, requestCourseDto);
+			studentCourseDao.createStudent_course(requestStudentDto, requestCourseDto);
 		}
 		response.sendRedirect("http://localhost:8080/Mvc_database/StudentViewController");
 	}

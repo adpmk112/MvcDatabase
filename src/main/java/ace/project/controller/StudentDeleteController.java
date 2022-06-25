@@ -7,26 +7,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ace.project.persistance.dao.StudentCourseDao;
 import ace.project.persistance.dao.StudentDao;
-import ace.project.persistance.dto.RequestCourseDto;
 import ace.project.persistance.dto.RequestStudentDto;
 
 /**
- * Servlet implementation class StudentUpdateController
+ * Servlet implementation class StudentDeleteController
  */
-@WebServlet("/StudentUpdateController")
-public class StudentUpdateController extends HttpServlet {
+@WebServlet("/StudentDeleteController")
+public class StudentDeleteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	StudentDao studentDao = new StudentDao();
-	StudentCourseDao studentCourseDao = new StudentCourseDao();
 	RequestStudentDto requestStudentDto = new RequestStudentDto();
-	RequestCourseDto requestCourseDto = new RequestCourseDto();
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public StudentUpdateController() {
+    public StudentDeleteController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,13 +32,17 @@ public class StudentUpdateController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-}
+		requestStudentDto.setId(Integer.valueOf(request.getParameter("deleteId")));
+		studentDao.deleteByStudentId(requestStudentDto);
+		response.sendRedirect("http://localhost:8080/Mvc_database/StudentViewController");
+	}
+
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		
 	}
 
 }

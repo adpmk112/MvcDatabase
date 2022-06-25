@@ -62,21 +62,21 @@
                 <div class="col-md-2"></div>
                 <label for="studentID" class="col-md-2 col-form-label">Student ID</label>
                 <div class="col-md-4">
-                    <input type="text" class="form-control" value="STU ${fetchedStudent.studentId}" id="studentID" disabled>
+                    <input type="text" class="form-control" value="${fetchedStudent.studentId}" id="studentID" readonly=readonly name="studentId">
                 </div>
             </div>
             <div class="row mb-4">
                 <div class="col-md-2"></div>
                 <label for="name" class="col-md-2 col-form-label">Name</label>
                 <div class="col-md-4">
-                    <input type="text" class="form-control" id="name" value="${fetchedStudent.studentName}">
+                    <input type="text" class="form-control" id="name" value="${fetchedStudent.studentName}" name="studentName">
                 </div>
             </div>
             <div class="row mb-4">
                 <div class="col-md-2"></div>
                 <label for="dob" class="col-md-2 col-form-label">DOB</label>
                 <div class="col-md-4">
-                    <input type="date" class="form-control" id="dob" value="${fetchedStudent.birth}">
+                    <input type="date" class="form-control" id="dob" value="${fetchedStudent.birth}" name="birth">
                 </div>
             </div>
             <fieldset class="row mb-4">
@@ -84,14 +84,14 @@
                 <legend class="col-form-label col-md-2 pt-0">Gender</legend>
                 <div class="col-md-4">
                     <div class="form-check-inline">
-                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" 
+                        <input class="form-check-input" type="radio" name="gender" id="gridRadios1" 
                         value="Male" ${fetchedStudent.gender.equals("Male") ? 'checked' : '' }>
                         <label class="form-check-label" for="gridRadios1">
                             Male
                         </label>
                     </div>
                     <div class="form-check-inline">
-                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2"
+                        <input class="form-check-input" type="radio" name="gender" id="gridRadios2"
                          value="Female" ${fetchedStudent.gender.equals("Female") ? 'checked' : '' }>
                         <label class="form-check-label" for="gridRadios2">
                             Female
@@ -105,14 +105,14 @@
                 <div class="col-md-2"></div>
                 <label for="phone" class="col-md-2 col-form-label">Phone</label>
                 <div class="col-md-4">
-                    <input type="text" class="form-control" id="phone" value="${fetchedStudent.phone }">
+                    <input type="text" class="form-control" id="phone" value="${fetchedStudent.phone }" name="phone">
                 </div>
             </div>
             <div class="row mb-4">
                 <div class="col-md-2"></div>
                 <label for="education" class="col-md-2 col-form-label">Education</label>
                 <div class="col-md-4">
-                    <select class="form-select" aria-label="Education" id="education">
+                    <select class="form-select" aria-label="Education" id="education" name="education">
                         <option selected>${fetchedStudent.education }</option>
                         <option value="1">Bachelor of Information Technology</option>
                         <option value="2">Diploma in IT</option>
@@ -150,7 +150,7 @@
                 <div class="col-md-4"></div>
     
                 <div class="col-md-4">
-                    <a href="StudentUpdateController">
+                    <a href="StudentUpdateController?updateId=${fetchedStudent.studentId }">
                         <button type="button" class="btn btn-secondary">
                           
                             <span>Update</span>
@@ -158,7 +158,7 @@
                     </a>
     
                     <!-- Button trigger modal -->
-                    <a href="StudentDeleteController">
+                    <a href="StudentDeleteController?deleteId=${fetchedStudent.studentId}">
                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
                        
                        <span>Delete</span> 
